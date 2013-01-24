@@ -1,6 +1,6 @@
 #
-# HelloWorld Plugin for BigBrotherBot(B3) (www.bigbrotherbot.net)
-# Copyright (C) 2010 <Your Name Here>
+# Globan Plugin for BigBrotherBot(B3) (www.bigbrotherbot.net)
+# Copyright (C) 2010 FaceHunter
 # 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,3 +18,14 @@
 #
 # Changelog:
 #
+
+__version__ = '0.0001'
+__author__  = 'FaceHunter'
+
+class GlobanPlugin(b3.plugin.Plugin):
+	requiresConfigFile = False
+	
+	def onStartup(self):
+		self.verbose('Registering events')
+		self.registerEvent(b3.events.EVT_CLIENT_AUTH)
+		self.debug('Started')
