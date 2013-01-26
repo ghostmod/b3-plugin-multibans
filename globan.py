@@ -18,6 +18,7 @@
 #
 # Changelog:
 #	0.1 game shows amount on join
+#	1.0 b3 adds/shows bancount
 #
 #	TODO:
 #		-find a way to add people on ban, but only on permban (or not :3)
@@ -28,7 +29,7 @@ import b3.plugin
 import b3.events
 import urllib
 
-__version__ = '0.1'
+__version__ = '1.0'
 __author__  = 'FaceHunter'
 
 class GlobanPlugin(b3.plugin.Plugin):
@@ -47,6 +48,7 @@ class GlobanPlugin(b3.plugin.Plugin):
 		self.verbose('Registering events')
 		self.registerEvent(b3.events.EVT_CLIENT_CONNECT)
 		self.registerEvent(b3.events.EVT_CLIENT_BAN)
+		self.registerEvent(b3.events.EVT_CLIENT_BAN_TEMP)
 		self.debug('Started')
 		
 		self._adminPlugin.registerCommand(self, 'globantest', 1, self.globantest)
@@ -57,7 +59,10 @@ class GlobanPlugin(b3.plugin.Plugin):
 	def onEvent(self, event):
 		if event.type == b3.events.EVT_CLIENT_CONNECT:
 			self.lookup(event.client)
-		if event.type == b3.events.EVT_CLIENT_BAN:
+		if event.type == b3.events.EVT_CLIENT_BAN or event.type == b3.events.EVT_CLIENT_BAN_TEMP:
+			self.verbose("==================================================="+event.client.name+" is banned!==========================")
+			self.addban(event.client)
+			self.verbose("adding banned client to globanlist")
 			
 	def lookup(self, client):
 		self.console.say('User: '+client.name+' has '+self.checkbans(client)+' bans!')
@@ -72,3 +77,9 @@ class GlobanPlugin(b3.plugin.Plugin):
 			return "no"
 		else:
 			return stat
+			
+	def addban(self, client):
+		guid = client.guid
+		name = client.name
+		self.verbose("opening link:http://localhost/globan/addban.php?name="+name+"&guid="+guid)
+		urllib.urlopen("http://localhost/globan/addban.php?name="+name+"&guid="+guid)
