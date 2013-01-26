@@ -65,7 +65,7 @@ class GlobanPlugin(b3.plugin.Plugin):
 			self.verbose("adding banned client to globanlist")
 			
 	def lookup(self, client):
-		self.console.say('User: '+client.name+' is banned '+self.checkbans(client)+' times!')
+		self.console.say('Player:^2 '+client.name+' ^9is banned ^1'+self.checkbans(client)+' times!')
 		
 		
 	def checkbans(self, client):
@@ -74,7 +74,7 @@ class GlobanPlugin(b3.plugin.Plugin):
 		checka = urllib.urlopen("http://localhost/globan/getinfo.php?name="+name+"&guid="+guid)
 		stat = checka.read().strip()
 		if stat == "None":
-			return "no"
+			return "0"
 		else:
 			return stat
 			
