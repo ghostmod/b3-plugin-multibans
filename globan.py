@@ -28,6 +28,7 @@ import b3
 import b3.plugin
 import b3.events
 import urllib
+import urllib2
 
 __version__ = '1.0'
 __author__  = 'FaceHunter'
@@ -60,12 +61,11 @@ class GlobanPlugin(b3.plugin.Plugin):
 		if event.type == b3.events.EVT_CLIENT_CONNECT:
 			self.lookup(event.client)
 		if event.type == b3.events.EVT_CLIENT_BAN or event.type == b3.events.EVT_CLIENT_BAN_TEMP:
-			self.verbose("==================================================="+event.client.name+" is banned!==========================")
 			self.addban(event.client)
 			self.verbose("adding banned client to globanlist")
 			
 	def lookup(self, client):
-		self.console.say('User: '+client.name+' has '+self.checkbans(client)+' bans!')
+		self.console.say('User: '+client.name+' is banned '+self.checkbans(client)+' times!')
 		
 		
 	def checkbans(self, client):
@@ -79,7 +79,11 @@ class GlobanPlugin(b3.plugin.Plugin):
 			return stat
 			
 	def addban(self, client):
-		guid = client.guid
-		name = client.name
-		self.verbose("opening link:http://localhost/globan/addban.php?name="+name+"&guid="+guid)
-		urllib.urlopen("http://localhost/globan/addban.php?name="+name+"&guid="+guid)
+		url = 'http://localhost/globan/addban.php'
+		values = {'name' : str(client.name), 'guid' : str(client.guid)}
+		data = urllib.urlencode(values)
+		req = urllib2.Request(url, data)
+		response = urllib2.urlopen(req)
+		the_page = response.read()
+		if the_page is not "OK":
+			self.error("Adding ban failed")
