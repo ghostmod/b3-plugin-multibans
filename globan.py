@@ -30,8 +30,8 @@ import b3.events
 import urllib
 import urllib2
 
-__version__ = '1.0'
-__author__  = 'FaceHunter'
+__version__ = '1.1'
+__author__  = 'FaceHunter,Gh0sT'
 
 class GlobanPlugin(b3.plugin.Plugin):
 	requiresConfigFile = False
@@ -71,7 +71,7 @@ class GlobanPlugin(b3.plugin.Plugin):
 	def checkbans(self, client):
 		guid = client.guid
 		name = client.name
-		checka = urllib.urlopen("http://localhost/globan/getinfo.php?name="+name+"&guid="+guid)
+		checka = urllib.urlopen("http://localhost/b3-ban/getinfo.php?name="+name+"&guid="+guid)
 		stat = checka.read().strip()
 		if stat == "None":
 			return "0"
@@ -79,7 +79,7 @@ class GlobanPlugin(b3.plugin.Plugin):
 			return stat
 			
 	def addban(self, client):
-		url = 'http://localhost/globan/addban.php'
+		url = 'http://localhost/b3-ban/addban.php'
 		values = {'name' : str(client.name), 'guid' : str(client.guid)}
 		data = urllib.urlencode(values)
 		req = urllib2.Request(url, data)
