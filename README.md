@@ -1,4 +1,4 @@
-B3-globan
+b3-plugins-multibans
 =========
 
-Global Banning plugin for B3
+Global banning plugin for multi B3 instance.
