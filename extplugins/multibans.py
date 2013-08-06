@@ -16,13 +16,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
-# Changelog:
-#	0.1 game shows amount on join
-#	1.0 b3 adds/shows bancount
-#
-#	TODO:
-#		-find a way to add people on ban, but only on permban (or not :3)
-#
 
 import b3
 import b3.plugin
@@ -33,13 +26,13 @@ import urllib2
 __version__ = '1.1'
 __author__  = 'FaceHunter,Gh0sT'
 
-class GlobanPlugin(b3.plugin.Plugin):
+class MultiBanPlugin(b3.plugin.Plugin):
 	requiresConfigFile = False
 	
 	def onStartup(self):
 
 		self._adminPlugin = self.console.getPlugin('admin')
-		self.verbose("Starting globan plugin!")
+		self.verbose("Starting MultiBan plugin!")
  
 		if not self._adminPlugin:
 			# something is wrong, can't start without admin plugin
@@ -52,7 +45,7 @@ class GlobanPlugin(b3.plugin.Plugin):
 		self.registerEvent(b3.events.EVT_CLIENT_BAN_TEMP)
 		self.debug('Started')
 		
-		self._adminPlugin.registerCommand(self, 'globantest', 1, self.globantest)
+		self._adminPlugin.registerCommand(self, 'mbantest', 1, self.globantest)
 		
 	def globantest(self,  data, client, cmd):
 		self.console.saybig('Globan plugin is working!')
